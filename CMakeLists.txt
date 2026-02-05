@@ -148,7 +148,7 @@ if(CMAKE_HIP_COMPILER)
         )
         install(RUNTIME_DEPENDENCY_SET rocm
                 DIRECTORIES ${HIP_BIN_INSTALL_DIR} ${HIP_LIB_INSTALL_DIR}
-                PRE_INCLUDE_REGEXES hipblas rocblas amdhip64 rocsolver octx64 rocroller amd_comgr hsa-runtime64 rocsparse tinfo rocprofiler-register drm drm_amdgpu numa elf
+                PRE_INCLUDE_REGEXES hipblas hipblaslt rocblas amdhip64 rocsolver octx64 rocroller amd_comgr hsa-runtime64 rocsparse tinfo rocprofiler-register drm drm_amdgpu numa elf
                 PRE_EXCLUDE_REGEXES ".*"
                 POST_EXCLUDE_REGEXES "system32"
             RUNTIME DESTINATION ${OLLAMA_INSTALL_DIR} COMPONENT HIP
@@ -158,6 +158,13 @@ if(CMAKE_HIP_COMPILER)
         foreach(HIP_LIB_BIN_INSTALL_DIR IN ITEMS ${HIP_BIN_INSTALL_DIR} ${HIP_LIB_INSTALL_DIR})
             if(EXISTS ${HIP_LIB_BIN_INSTALL_DIR}/rocblas)
                 install(DIRECTORY ${HIP_LIB_BIN_INSTALL_DIR}/rocblas DESTINATION ${OLLAMA_INSTALL_DIR} COMPONENT HIP)
+                break()
+            endif()
+        endforeach()
+
+        foreach(HIP_LIB_BIN_INSTALL_DIR IN ITEMS ${HIP_BIN_INSTALL_DIR} ${HIP_LIB_INSTALL_DIR})
+            if(EXISTS ${HIP_LIB_BIN_INSTALL_DIR}/hipblaslt)
+                install(DIRECTORY ${HIP_LIB_BIN_INSTALL_DIR}/hipblaslt DESTINATION ${OLLAMA_INSTALL_DIR} COMPONENT HIP)
                 break()
             endif()
         endforeach()
